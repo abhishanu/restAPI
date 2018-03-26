@@ -5,9 +5,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
 
 import abhi.spring.boot.restApp.data.services.BookServices;
 import abhi.spring.boot.restApp.entities.Book;
@@ -41,15 +43,10 @@ public class ServiceController {
 	}
 
 	@PostMapping("/addBook")
-	public ModelAndView saveBook() {
+	public boolean saveBook(@RequestBody Book book) {
 
 		boolean isDataSaved = false;
-		ModelAndView modelAndView = new ModelAndView();
-
-		Book book = new Book();
-		book.setId(17l);
-		book.setAuthour("Abhi");
-		book.setName("Angular");
+		// ModelAndView modelAndView = new ModelAndView();
 
 		Book savedBoks = bookServices.saveBoks(book);
 		if(savedBoks!=null){
@@ -58,8 +55,20 @@ public class ServiceController {
 		
 		// modelAndView.setViewName("/WEB-INF/jsp/success.jsp");
 
-		return modelAndView;
+		return isDataSaved;
 
+	}
+
+	@PatchMapping("/updateBookDetails")
+	public boolean updateRecord(@RequestBody Book book) {
+		Book saveBoks = bookServices.saveBoks(book);
+		boolean isUpdated = (saveBoks != null) ? true : false;
+		return true;
+	}
+
+	@GetMapping("/getBook/{id}")
+	public Book getBookById(@PathVariable("id") Long id) {
+		return bookServices.getBookById(id);
 	}
 
 }

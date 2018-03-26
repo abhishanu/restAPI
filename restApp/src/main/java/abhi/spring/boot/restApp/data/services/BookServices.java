@@ -39,4 +39,10 @@ public class BookServices {
 		return findAllBooks;
 	}
 
+	public Book getBookById(Long id) {
+		BookRepositry bookRepositry = applicationContex.getBean(BookRepositry.class);
+		Book findOne = bookRepositry.findOne(id);
+		return findOne;
+	}
+
 }
